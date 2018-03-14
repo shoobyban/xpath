@@ -7,7 +7,7 @@ import (
 
 	"strings"
 
-	"github.com/go-xmlpath/xmlpath"
+	"github.com/shoobyban/xpath"
 	. "gopkg.in/check.v1"
 )
 
@@ -22,9 +22,9 @@ type BasicSuite struct{}
 var trivialXml = []byte(`<root>a<foo>b</foo>c<bar>d</bar>e<bar>f</bar>g</root>`)
 
 func (s *BasicSuite) TestRootText(c *C) {
-	node, err := xmlpath.Parse(bytes.NewBuffer(trivialXml))
+	node, err := xpath.Parse(bytes.NewBuffer(trivialXml))
 	c.Assert(err, IsNil)
-	path := xmlpath.MustCompile("/")
+	path := xpath.MustCompile("/")
 	result, ok := path.String(node)
 	c.Assert(ok, Equals, true)
 	c.Assert(result, Equals, "abcdefg")
@@ -45,9 +45,9 @@ var htmlTable = []struct {
 func (s *BasicSuite) TestHTML(c *C) {
 	for _, test := range htmlTable {
 		c.Logf("Running test: %v", test)
-		node, err := xmlpath.ParseHTML(bytes.NewBuffer([]byte(test.html)))
+		node, err := xpath.ParseHTML(bytes.NewBuffer([]byte(test.html)))
 		c.Assert(err, IsNil)
-		path, err := xmlpath.Compile(test.path)
+		path, err := xpath.Compile(test.path)
 		c.Assert(err, IsNil)
 		result, ok := path.String(node)
 		c.Assert(ok, Equals, true)
@@ -56,11 +56,11 @@ func (s *BasicSuite) TestHTML(c *C) {
 }
 
 func (s *BasicSuite) TestLibraryTable(c *C) {
-	node, err := xmlpath.Parse(bytes.NewBuffer(libraryXml))
+	node, err := xpath.Parse(bytes.NewBuffer(libraryXml))
 	c.Assert(err, IsNil)
 	for _, test := range libraryTable {
 		cmt := Commentf("xml path: %s", test.path)
-		path, err := xmlpath.Compile(test.path)
+		path, err := xpath.Compile(test.path)
 		if want, ok := test.result.(cerror); ok {
 			if !strings.Contains(err.Error(), string(want)) {
 				c.Fatalf("error should contain `%s` but got `%s`", want, err.Error())
@@ -325,7 +325,7 @@ var libraryXml = []byte(`
 
 func (s *BasicSuite) BenchmarkParse(c *C) {
 	for i := 0; i < c.N; i++ {
-		_, err := xmlpath.Parse(bytes.NewBuffer(instancesXml))
+		_, err := xpath.Parse(bytes.NewBuffer(instancesXml))
 		c.Assert(err, IsNil)
 	}
 }
@@ -334,16 +334,16 @@ func (s *BasicSuite) BenchmarkSimplePathCompile(c *C) {
 	var err error
 	c.ResetTimer()
 	for i := 0; i < c.N; i++ {
-		_, err = xmlpath.Compile("/DescribeInstancesResponse/reservationSet/item/groupSet/item/groupId")
+		_, err = xpath.Compile("/DescribeInstancesResponse/reservationSet/item/groupSet/item/groupId")
 	}
 	c.StopTimer()
 	c.Assert(err, IsNil)
 }
 
 func (s *BasicSuite) BenchmarkSimplePathString(c *C) {
-	node, err := xmlpath.Parse(bytes.NewBuffer(instancesXml))
+	node, err := xpath.Parse(bytes.NewBuffer(instancesXml))
 	c.Assert(err, IsNil)
-	path := xmlpath.MustCompile("/DescribeInstancesResponse/reservationSet/item/instancesSet/item/instanceType")
+	path := xpath.MustCompile("/DescribeInstancesResponse/reservationSet/item/instancesSet/item/instanceType")
 	var str string
 	c.ResetTimer()
 	for i := 0; i < c.N; i++ {
@@ -366,9 +366,9 @@ func (s *BasicSuite) BenchmarkSimplePathStringUnmarshal(c *C) {
 }
 
 func (s *BasicSuite) BenchmarkSimplePathExists(c *C) {
-	node, err := xmlpath.Parse(bytes.NewBuffer(instancesXml))
+	node, err := xpath.Parse(bytes.NewBuffer(instancesXml))
 	c.Assert(err, IsNil)
-	path := xmlpath.MustCompile("/DescribeInstancesResponse/reservationSet/item/instancesSet/item/instanceType")
+	path := xpath.MustCompile("/DescribeInstancesResponse/reservationSet/item/instancesSet/item/instanceType")
 	var exists bool
 	c.ResetTimer()
 	for i := 0; i < c.N; i++ {

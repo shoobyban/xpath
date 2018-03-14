@@ -3,12 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gopkg.in/xmlpath.v2"
 	"io"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/shoobyban/xpath"
 )
 
 var all = flag.Bool("all", false, "print all occurrences rather than the first one")
@@ -34,7 +35,7 @@ var whitespace = regexp.MustCompile("[ \t\n]+")
 func run() error {
 	args := flag.Args()
 
-	path, err := xmlpath.Compile(args[0])
+	path, err := xpath.Compile(args[0])
 	if err != nil {
 		return err
 	}
@@ -58,7 +59,7 @@ func run() error {
 		body = file
 	}
 
-	n, err := xmlpath.ParseHTML(body)
+	n, err := xpath.ParseHTML(body)
 	if err != nil {
 		return err
 	}
