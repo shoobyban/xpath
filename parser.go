@@ -98,7 +98,7 @@ func (node *Node) getNodeValue() (int, interface{}) {
 	lastKind := node.Kind
 	lastname := name
 	for i = node.Pos + 1; i < node.End; i++ {
-		//		fmt.Println(i, NodeKinds[node.Nodes[i].Kind], node.Nodes[i].Name, " # ", node.Nodes[i].Pos, node.End, string(node.Nodes[i].Text))
+		fmt.Println(i, NodeKinds[node.Nodes[i].Kind], node.Nodes[i].Name, " # ", node.Nodes[i].Pos, node.End, string(node.Nodes[i].Text))
 		if node.Nodes[i].Kind == StartNode {
 			name = node.Nodes[i].Name.Local
 			if lastKind == StartNode {
@@ -138,7 +138,6 @@ func (node *Node) getNodeValue() (int, interface{}) {
 						m[name] = append([]interface{}{}, m[name], node.Nodes[i].TrimText())
 					}
 				} else {
-					fmt.Printf("textnode %#v\n", node.Nodes[i].TrimText())
 					m[name] = node.Nodes[i].TrimText()
 				}
 				lastKind = TextNode
@@ -148,7 +147,6 @@ func (node *Node) getNodeValue() (int, interface{}) {
 			if lastKind == EndNode {
 				return i, m
 			} else if lastKind == TextNode {
-				fmt.Printf("last is text %#v\n", m[lastname])
 				m[lastname] = m[lastname].([]interface{})[0]
 			}
 			lastKind = EndNode
