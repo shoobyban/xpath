@@ -98,7 +98,7 @@ func (node *Node) getNodeValue() (int, interface{}) {
 	lastKind := node.Kind
 	lastname := name
 	for i = node.Pos + 1; i < node.End; i++ {
-		fmt.Println(i, NodeKinds[node.Nodes[i].Kind], node.Nodes[i].Name, " # ", node.Nodes[i].Pos, node.End, string(node.Nodes[i].Text))
+		//		fmt.Println(i, NodeKinds[node.Nodes[i].Kind], node.Nodes[i].Name, " # ", node.Nodes[i].Pos, node.End, string(node.Nodes[i].Text))
 		if node.Nodes[i].Kind == StartNode {
 			name = node.Nodes[i].Name.Local
 			if lastKind == StartNode {
