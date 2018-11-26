@@ -151,7 +151,7 @@ func (node *Node) getNodeValue() (int, interface{}) {
 			}
 			lastKind = EndNode
 		} else {
-			fmt.Println("Unhandled Node", node)
+			fmt.Printf("Unhandled Node %#v\n", node)
 		}
 		lastname = name
 	}
