@@ -2,7 +2,6 @@ package xpath
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io"
 	"reflect"
 	"strings"
@@ -150,8 +149,6 @@ func (node *Node) getNodeValue() (int, interface{}) {
 				m[lastname] = m[lastname].([]interface{})[0]
 			}
 			lastKind = EndNode
-		} else if node != nil {
-			fmt.Printf("XPATH unhandled node: %#v\n", node)
 		}
 		lastname = name
 	}
