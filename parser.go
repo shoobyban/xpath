@@ -150,8 +150,8 @@ func (node *Node) getNodeValue() (int, interface{}) {
 				m[lastname] = m[lastname].([]interface{})[0]
 			}
 			lastKind = EndNode
-		} else {
-			fmt.Println("Unhandled Node", node)
+		} else if node != nil {
+			fmt.Printf("XPATH unhandled node: %#v\n", node)
 		}
 		lastname = name
 	}
