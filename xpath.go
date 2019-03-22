@@ -64,6 +64,11 @@ type Iter struct {
 	seen  []bool
 }
 
+// Length returns the number of matches
+func (iter *Iter) Length() int {
+	return len(iter.state)
+}
+
 // Node returns the current node.
 // Must only be called after Iter.Next returns true.
 func (iter *Iter) Node() *Node {
